@@ -3,25 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tidminta <tidminta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/04 01:13:57 by thhusser          #+#    #+#             */
-/*   Updated: 2020/11/04 01:13:57 by thhusser         ###   ########.fr       */
+/*   Created: 2019/09/09 21:07:43 by motoure           #+#    #+#             */
+/*   Updated: 2021/09/21 20:37:22 by tidminta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_strncmp(char const *s1, char const *s2, unsigned int n)
-{
-	unsigned int	i;
+#include <unistd.h>
 
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	unsigned long	i;
+	unsigned char	*casted_s1;
+	unsigned char	*casted_s2;
+
+	casted_s1 = (unsigned char *)s1;
+	casted_s2 = (unsigned char *)s2;
 	i = 0;
 	if (n == 0)
 		return (0);
-	while ((s1[i] || s2[i]) && i < n)
+	while (casted_s1[i] == casted_s2[i] && casted_s1[i]
+		&& casted_s2[i] && i < n)
 	{
-		if (s1[i] != s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		if (i + 1 == n)
+			return (casted_s1[i] - casted_s2[i]);
+		if (casted_s1[i] != casted_s2[i] && casted_s1[i] && casted_s2[i])
+			return (casted_s1[i] - casted_s2[i]);
 		i++;
 	}
-	return (0);
+	return (casted_s1[i] - casted_s2[i]);
 }

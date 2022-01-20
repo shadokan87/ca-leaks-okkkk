@@ -3,61 +3,72 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tidminta <tidminta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/04 01:12:00 by thhusser          #+#    #+#             */
-/*   Updated: 2020/11/04 01:12:00 by thhusser         ###   ########.fr       */
+/*   Created: 2020/01/07 01:16:16 by motoure           #+#    #+#             */
+/*   Updated: 2021/09/21 20:22:00 by tidminta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "libft.h"
 
-static int	ft_size(int n)
+int	count(int n)
 {
-	int	i;
-	int	neg;
+	int	count;
 
-	i = 0;
-	neg = 0;
-	if (n < 0)
-	{
-		n *= -1;
-		neg += 1;
-	}
-	if (n == 0)
-		return (1);
-	while (n != 0)
+	count = 0;
+	while (n)
 	{
 		n /= 10;
-		i++;
+		count++;
 	}
-	return (i + neg);
+	return (count);
+}
+
+static	char	*handle_spe(int n)
+{
+	if (n == 0)
+		return (ft_strdup("0"));
+	else
+		return (ft_strdup("-2147483648"));
+}
+
+static	int	set_negative(int n)
+{
+	int	negative;
+
+	if (n > 0)
+		negative = 0;
+	else
+		negative = 1;
+	return (negative);
 }
 
 char	*ft_itoa(int n)
 {
-	char		*str;
-	int			i;
-	int			size;
-	long int	nb;
+	int		i;
+	char	*ret;
+	int		negative;
 
-	nb = n;
-	size = ft_size(nb);
-	i = size;
-	str = (char *)malloc(sizeof(char) * (size + 1));
-	if (!str)
-		return (NULL);
-	if (n < 0)
-		str[0] = '-';
-	if (nb < 0)
-		nb *= -1;
-	while (nb != 0)
+	if (n == -2147483648 || n == 0)
+		return (handle_spe(n));
+	negative = set_negative(n);
+	if (negative)
+		n = n * -1;
+	i = 0;
+	if (negative)
+		ret = gc_malloc(sizeof(char) * count(n) + 2);
+	else
+		ret = gc_malloc(sizeof(char) * count(n) + 1);
+	while (n)
 	{
-		str[--i] = nb % 10 + 48;
-		nb /= 10;
+		ret[i] = n % 10 + 48;
+		n /= 10;
+		i++;
 	}
-	if (n == 0)
-		str[0] = '0';
-	str[size] = 0;
-	return (str);
+	if ((negative))
+		ret[i++] = '-';
+	ret[i] = '\0';
+	return (ft_strrev(ret));
 }

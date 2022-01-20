@@ -1,0 +1,16 @@
+_builtins
+_cmd_exec
+_env
+error
+file
+includes
+init
+_IO
+libft
+Makefile
+minishell
+parsing
+script.sh
+srcs
+tags
+_wildcards

@@ -3,66 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: motoure <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/04 17:30:16 by thhusser          #+#    #+#             */
-/*   Updated: 2021/11/30 17:10:35 by thhusser         ###   ########.fr       */
+/*   Created: 2019/11/08 22:48:46 by motoure           #+#    #+#             */
+/*   Updated: 2020/01/08 16:05:44 by motoure          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-static int	ft_isspace(const char str)
-{
-	if (str == ' ' || str == '\t' || str == '\n'
-		|| str == '\v' || str == '\f' || str == '\r')
-		return (1);
-	return (0);
-}
-
-static int	ft_number(const char str)
-{
-	if (str >= '0' && str <= '9')
-		return (1);
-	return (0);
-}
-
-static int	ft_sign(const char *str)
-{
-	int	sign;
-	int	nb;
-
-	sign = 0;
-	nb = 0;
-	while (str[nb] == '-' || str[nb] == '+')
-	{
-		if (str[nb] == '-')
-			sign++;
-		nb++;
-	}
-	if (nb > 1)
-		return (-1);
-	return (sign);
-}
+#include <stdlib.h>
 
 int	ft_atoi(const char *str)
 {
-	int			i;
-	long int	result;
-	int			sign;
+	int	return_value;
+	int	i;
+	int	sign;
 
+	sign = 1;
+	return_value = 0;
 	i = 0;
-	result = 0;
-	sign = 0;
-	while (ft_isspace(*str))
-		str++;
-	sign = ft_sign(str);
-	if (sign == -1)
-		return (0);
-	while (*str == '-' || *str == '+')
-		str++;
-	result = 0;
-	while (ft_number(str[i]))
-		result = (str[i++] - 48) + result * 10;
-	if ((sign % 2))
-		result = -result;
-	return (result);
+	while ((str[i] == ' ') || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == '+' || str[i] == '-')
+	{
+		if (str[i] == '-')
+			sign = -sign;
+		i++;
+	}
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		return_value = return_value * 10 + str[i] - '0';
+		i++;
+	}
+	return (return_value * sign);
 }

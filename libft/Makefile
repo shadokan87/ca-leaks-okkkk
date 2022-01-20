@@ -3,128 +3,52 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
+#    By: motoure <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/11/05 14:00:38 by thhusser          #+#    #+#              #
-#    Updated: 2021/12/09 12:31:30 by thhusser         ###   ########.fr        #
+#    Created: 2020/01/07 02:25:18 by motoure           #+#    #+#              #
+#    Updated: 2021/09/12 08:46:17 by motoure          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-_NC=`tput sgr0`
-_RED=\033[0;31m
-_GREEN=\033[0;32m
-_YELLOW=\033[0;33m
-_BLUE=\033[0;34m
-_PURPLE=\033[0;95m
-_CYAN=\033[0;36m
-_WHITE=\033[0;37m
+NAME = libft.a
 
-NAME	=	libft.a
+SRC = ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
+	  ft_isdigit.c ft_isprint.c \
+	  ft_itoa.c ft_calloc.c\
+	  ft_memccpy.c ft_memchr.c ft_memcpy.c ft_memcmp.c\
+	  ft_memmove.c ft_memset.c ft_putchar_fd.c \
+	  ft_putendl_fd.c ft_putnbr_fd.c \
+	  ft_putstr_fd.c ft_split.c ft_strchr.c\
+	  ft_strdup.c ft_strrev.c\
+	  ft_strjoin.c ft_strlcat.c ft_strlcpy.c ft_strlen.c \
+	  ft_strmapi.c ft_strncmp.c\
+	  ft_strnstr.c ft_strrchr.c \
+	  ft_strtrim.c ft_substr.c ft_tolower.c ft_toupper.c \
+	  ft_putchar_str.c ft_memsub.c ft_realloc.c ft_strndup.c\
 
-SRCS	=	ft_memset.c \
-			ft_bzero.c \
-			ft_memcpy.c \
-			ft_memccpy.c \
-			ft_memmove.c \
-			ft_memchr.c \
-			ft_memcmp.c \
-			ft_strlen.c \
-			ft_isalpha.c \
-			ft_isdigit.c \
-			ft_isalnum.c \
-			ft_isascii.c \
-			ft_isprint.c \
-			ft_toupper.c \
-			ft_tolower.c \
-			ft_strchr.c \
-			ft_strrchr.c \
-			ft_strncmp.c \
-			ft_strlcpy.c \
-			ft_strlcat.c \
-			ft_strnstr.c \
-			ft_atoi.c \
-			ft_calloc.c \
-			ft_strdup.c \
-			ft_substr.c \
-			ft_strjoin.c \
-			ft_strtrim.c \
-			ft_split.c \
-			ft_itoa.c \
-			ft_strmapi.c \
-			ft_putchar_fd.c \
-			ft_putstr_fd.c \
-			ft_putendl_fd.c \
-			ft_putnbr_fd.c \
-			ft_lstnew.c \
-			ft_lstadd_front.c \
-			ft_lstadd_back.c \
-			ft_lstlast.c \
-			ft_lstsize.c \
-			ft_lstdelone.c \
-			ft_lstclear.c \
-			ft_lstiter.c \
-			ft_lstmap.c \
-			ft_strncpy.c \
-			ft_strcat.c \
-			ft_strcpy.c \
-			ft_strncat.c \
-			ft_strcmp.c \
-			ft_strstr.c \
-			ft_memdel.c \
-			ft_memalloc.c \
-			ft_putnbr.c \
-			ft_putstr.c \
-			ft_putchar.c \
-			ft_strnew.c \
-			ft_strclr.c \
-			ft_strdel.c \
-			ft_striter.c \
-			ft_striteri.c \
-			ft_strmap.c \
-			ft_strequ.c \
-			ft_strnequ.c \
-			ft_putendl.c \
-			get_next_line.c \
-			ft_isspace.c \
-			ft_long_atoi.c \
-			ft_is_nbr.c \
-			ft_print_list.c \
-			ft_del_list.c \
-			ft_split_charset.c \
-			ft_del_line.c \
+OBJ = $(subst .c,.o,$(SRC))
 
-OBJS	=	${SRCS:.c=.o}
+CFLAGS = -Wall -Werror -Wextra -g
 
-CFLAGS	=	-Wall -Wextra -Werror
+all: $(NAME)
 
-RM		=	rm -f
+OBJ : $(subst .o,.c,$(SRC))
+	gcc -c $(CFLAGS) $(SRC)
 
-HEADER	=	-I libft/libft.h
+$(NAME): $(OBJ)
+	ar rc $(NAME) $(OBJ)
+	ranlib $(NAME)
 
-.c.o:
-			@printf "$(_WHITE)Generating libft objects... %-33.33s\r$(_NC)" $@
-			@gcc ${CFLAGS} ${HEADER} -c $< -o $(<:.c=.o)
-
-${NAME}:	${OBJS}
-			@echo ""
-			@gcc $(FLAGS) -c $(SRCS)
-			@ar rcs ${NAME} ${OBJS}
-			@echo "$(_GREEN)Generating $(NAME)$(_NC)"
-
-all:		${NAME}
 
 clean:
-ifneq ($(wildcard $(OBJS)),)
-		@${RM} $(OBJS);
-		@echo "$(_GREEN)Deletes objects files libft$(_NC)"
-endif
+	rm -f $(OBJ)
 
-fclean:		clean
-ifneq ($(wildcard $(NAME)),)
-		@${RM} ${NAME};
-		@echo "$(_GREEN)Delete $(NAME)$(_NC)"
-endif
+fclean: clean
+	rm -f $(NAME)
 
-re:			fclean all
+re: fclean all
 
-.PHONY:		all clean fclean re bonus
+main : main.c libft.a
+	gcc -Wall -Wextra -Werror main.c libft.a
+
+.PHONY: clean fclean all re

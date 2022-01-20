@@ -3,29 +3,61 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tidminta <tidminta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/04 01:14:05 by thhusser          #+#    #+#             */
-/*   Updated: 2020/11/04 01:14:05 by thhusser         ###   ########.fr       */
+/*   Created: 2019/11/08 19:04:30 by motoure           #+#    #+#             */
+/*   Updated: 2021/09/21 20:40:46 by tidminta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <unistd.h>
 
-char	*ft_strnstr(char const *str, char const *to_find, size_t len)
+/*#define S size_t*/
+
+static unsigned int	ft_strlen(char *str)
 {
-	size_t	j;
+	unsigned int	i;
 
-	j = 0;
-	if (to_find[0] == 0)
-		return ((char *)str);
-	j = ft_strlen(to_find);
-	while (*str && len >= j)
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+char	*ft_strstr(char *str, char *to_find, size_t len)
+{
+	unsigned long	i;
+	unsigned int	y;
+
+	i = 0;
+	y = 0;
+	if (to_find[y] == '\0')
+		return (str);
+	while (str[i] && i < len)
 	{
-		if (*str == *to_find && ft_memcmp(str, to_find, j) == 0)
-			return ((char *)str);
-		str++;
-		len--;
+		if (str[i] == to_find[y])
+		{
+			while (str[i] == to_find[y] && to_find[y] && i < len)
+			{
+				i++;
+				y++;
+			}
+			if (y == (ft_strlen(to_find)))
+				return (str + (i - y));
+			else
+				i--;
+		}
+		y = 0;
+		i++;
 	}
 	return (NULL);
+}
+
+char	*ft_strnstr(const char *haystack,
+const char	*needle, size_t len)
+{
+	char	*return_value;
+
+	return_value = ft_strstr((char *)haystack, (char *)needle, len);
+	return (return_value);
 }

@@ -1,93 +1,85 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/12/08 16:26:34 by thhusser          #+#    #+#              #
-#    Updated: 2022/01/16 05:44:20 by thhusser         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME	=	minishell
 
-_NC=`tput sgr0`
-_RED=\033[0;31m
-_GREEN=\033[0;32m
-_YELLOW=\033[0;33m
-_BLUE=\033[0;34m
-_PURPLE=\033[0;95m
-_CYAN=\033[0;36m
-_WHITE=\033[0;37m
+CC		=	clang
 
-NAME		= minishell
+RM		=	rm -f
 
-SRCS		= $(addprefix ./srcs/, ${SRCS_FILES})
+CFLAGS	=	-Wall -Wextra -Werror -g3
 
-SRCS_FILES	= \
-				main.c \
-				init.c \
-				builtin/env.c \
-				builtin/echo.c \
-				builtin/export.c \
-				builtin/cd.c \
-				builtin/pwd.c \
-				builtin/unset.c \
-				exit_free.c \
-				list.c \
-				parsing_quotes/check_parsing_out.c \
-				parsing_quotes/check_parsing_in.c \
-				parsing_quotes/check_parsing_pipe.c \
-				parsing_quotes/check_parsing.c \
-				clean_redir_in_out.c \
-				pipe.c \
-				utils_pipe.c \
-				new_double_cmd.c \
-				redir/plus.c \
-				variables_1.c \
+LFLAGS	=	-I. -lncurses -lreadline -L /usr/local/Cellar/readline/8.1/lib -I /usr/local/Cellar/readline/8.1/include
 
 
-CC			=	gcc
+LIBFT	=	./libft/libft.a
 
-#FLAGS		= 	-Werror -Wextra -Wall -g
-FLAGS		= 	-g -fPIE
+SRCS	=	./srcs/main/main.c \
+			./srcs/gc/garbage_co.c \
+			./srcs/gc/garbage_co2.c \
+			./srcs/gc/garbage_co3.c \
+			./parsing/parsing_pass1/parsing_p.c \
+			./parsing/parsing_pass1/parsing_p1.c \
+			./parsing/parsing_pass1/parsing_p_par.c	\
+			./parsing/parsing_pass1/parsing_p_quotes.c \
+			./parsing/parsing_pass1/parsing_p_quotes_2.c \
+			./parsing/parsing_pass1/parsing_p_quotes3.c \
+			./parsing/parsing_pass1/parsing_p_symbol.c \
+			./parsing/parsing_pass1/parsing_p_str_to_struct.c \
+			./parsing/parsing_pass2/parsing_p_p_par.c \
+			./parsing/string_utils.c \
+			./parsing/string_utils_2.c \
+			./parsing/string_utils_3.c \
+			./parsing/string_utils_4.c \
+			./parsing/string_utils_5.c \
+			./parsing/prompt.c \
+			./init/init1.c \
+			./parsing/parsing_pass2/parsing_p_p_token.c \
+			./_IO/handle_redirection.c \
+			./_IO/input.c \
+			./_IO/output.c \
+			./_IO/pipe/pipe.c \
+			./_cmd_exec/[execve].c \
+			./_cmd_exec/[execve2].c \
+			./_cmd_exec/[execve2.5].c \
+			./_cmd_exec/[execve2.5.1].c \
+			./_cmd_exec/exec_type[pipe_no_pipe].c \
+			./_cmd_exec/handle_args.c \
+			./_cmd_exec/handle_cmd.c \
+			./_cmd_exec/handle_cmd2.c \
+			./_cmd_exec/handle_cmd3.c \
+			./_cmd_exec/handle_cmd4.c \
+			./_env/env1.c \
+			./_builtins/builtin1.c \
+			./_builtins/builtin1.5.c \
+			./_builtins/builtin1.5.1.c \
+			./_builtins/builtin2.c \
+			./_builtins/builtin3.c \
+			./_builtins/builtin_tools.c \
+			./_builtins/ft_internal.c \
+			./_builtins/random_utils1.c \
+			./_wildcards/handle_wildcards.c \
+			./_wildcards/match.c \
+			./_wildcards/multiple.c \
+			./_wildcards/single.c \
+			./_wildcards/determine.c \
+			./error/error.c
 
-LFLAGS		= 	-lreadline
+OBJS	=	$(SRCS:.c=.o)
 
-PATH_LIBFT 	= ./libft/
+all:		$(NAME)
 
-HEADER		= -I ./includes
-
-OBJS		= ${SRCS:.c=.o}
-
-RM 			= rm -f
-
-.c.o:
-				@printf "$(_WHITE)Generating $(NAME) objects... %-33.33s\r$(_NC)" $@
-				@clang ${FLAGS} ${HEADER} -c $< -o $(<:.c=.o)
-
-all:		${NAME}
-
-$(NAME): 	${OBJS}
-			@make -C libft/
-			@echo ""
-			@$(CC) $(FLAGS) $(HEADER) $(OBJS) -o $(NAME) -L ${PATH_LIBFT} -lft $(LFLAGS)
-			@echo "$(_GREEN)Generating $(NAME)$(_NC)"
+$(NAME):	$(OBJS)
+			make -C libft
+			${CC} ${CFLAGS} -lreadline ${LFLAGS} -o ${NAME} ${OBJS} ${LIBFT}
 
 clean:
-			@make clean -C ./libft
-ifneq ($(wildcard $(OBJS)),)
-	@$(RM) $(OBJS)
-	@echo "$(_GREEN)Deletes objects files $(NAME)$(_NC)"
-endif
+			$(RM) $(OBJS)
+			make clean -C libft
 
 fclean:		clean
-			@make fclean -C ./libft
-ifneq ($(wildcard $(NAME)),)
-	@$(RM) $(NAME)
-	@echo "$(_GREEN)Delete $(NAME)$(_NC)"
-endif
+			$(RM) $(NAME) $(LIBFT)
 
-re:			fclean all
+re:			fclean $(NAME)
 
-.PHONY: 	all fclean clean re
+f:			re
+			./minishell
 
+.PHONY:		all clean fclean re f

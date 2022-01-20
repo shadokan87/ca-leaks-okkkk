@@ -3,26 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tidminta <tidminta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/04 01:12:36 by thhusser          #+#    #+#             */
-/*   Updated: 2020/11/04 01:12:36 by thhusser         ###   ########.fr       */
+/*   Created: 2019/11/07 16:21:29 by motoure           #+#    #+#             */
+/*   Updated: 2021/09/21 20:23:16 by tidminta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <unistd.h>
 
-void	*ft_memcpy(void *dest, void const *src, size_t n)
+char	*ft_strcpy(char *src, char *dst)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
-	if (!dest && !src)
-		return (0);
-	while (i < n)
+	while (src[i])
 	{
-		((char *)dest)[i] = ((char *)src)[i];
+		dst[i] = src[i];
 		i++;
 	}
-	return (dest);
+	return (dst);
+}
+
+void	*ft_memcpy(void *dst, const void *src, size_t n)
+{
+	unsigned long		i;
+	char				*return_value;
+	char				*casted_dst;
+	char				*casted_src;
+
+	casted_dst = (char *)dst;
+	casted_src = (char *)src;
+	return_value = (char *)dst;
+	i = 0;
+	if (dst == src)
+		return (dst);
+	while (i < n)
+	{
+		casted_dst[i] = casted_src[i];
+		i++;
+	}
+	return (return_value);
 }

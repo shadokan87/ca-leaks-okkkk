@@ -3,63 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tidminta <tidminta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/04 01:13:41 by thhusser          #+#    #+#             */
-/*   Updated: 2022/01/15 17:24:03 by thhusser         ###   ########.fr       */
+/*   Created: 2019/11/10 18:16:41 by motoure           #+#    #+#             */
+/*   Updated: 2021/09/21 20:35:11 by tidminta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <unistd.h>
+#include <stdlib.h>
 
-static char	*strcat(char *dest, char const *src)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (dest[i])
-		i++;
-	while (src[j])
-		dest[i++] = src[j++];
-	dest[i] = 0;
-	return (dest);
-}
-
-static char	*strcpy(char *dest, char const *src)
+char	*cpy_from_index(int index, const char *src, char *dst)
 {
 	int	i;
 
 	i = 0;
 	while (src[i])
 	{
-		dest[i] = src[i];
+		dst[index] = src[i];
+		index++;
 		i++;
 	}
-	dest[i] = 0;
-	return (dest);
+	return (dst);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char		*str;
-	size_t		size;
+	char	*return_value;
+	int		t_len;
 
-	if (!s1 && !s2)
-		return (NULL);
-	if (s1 && s2)
-		size = ft_strlen(s1) + ft_strlen(s2) + 1;
-	else if (s1)
-		size = ft_strlen(s1);
-	else if (s2)
-		size = ft_strlen(s2);
-	else
-		return (NULL);
-	str = (char *)malloc(sizeof(char) * size);
-	if (!str)
-		return (NULL);
-	str = strcpy(str, s1);
-	str = strcat(str, s2);
-	return (str);
+	if (!s1 || !s2)
+		return (0);
+	t_len = ft_strlen(s1) + ft_strlen(s2);
+	return_value = gc_malloc(sizeof(char) * t_len + 1);
+	if (!return_value)
+		return (0);
+	cpy_from_index(0, s1, return_value);
+	cpy_from_index(ft_strlen(s1), s2, return_value);
+	return_value[t_len] = '\0';
+	return (return_value);
 }

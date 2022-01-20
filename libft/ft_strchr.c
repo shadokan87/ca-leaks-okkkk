@@ -3,27 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: motoure <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/04 01:13:15 by thhusser          #+#    #+#             */
-/*   Updated: 2020/11/04 01:13:15 by thhusser         ###   ########.fr       */
+/*   Created: 2020/01/07 18:35:11 by motoure           #+#    #+#             */
+/*   Updated: 2020/01/07 18:35:14 by motoure          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
 #include "libft.h"
 
 char	*ft_strchr(const char *s, int c)
 {
-	char	car;
-
-	car = (unsigned char)c;
 	while (*s)
 	{
-		if (*s == car)
+		if (*s == c)
 			return ((char *)s);
 		s++;
 	}
-	if (car == 0)
+	if (*s == c)
 		return ((char *)s);
-	return (NULL);
+	return (0);
 }

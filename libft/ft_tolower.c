@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: motoure <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/04 01:14:17 by thhusser          #+#    #+#             */
-/*   Updated: 2020/11/04 01:14:17 by thhusser         ###   ########.fr       */
+/*   Created: 2019/11/09 18:48:10 by motoure           #+#    #+#             */
+/*   Updated: 2020/01/07 18:14:27 by motoure          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <unistd.h>
 
 int	ft_tolower(int c)
 {

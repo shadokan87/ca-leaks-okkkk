@@ -3,42 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tidminta <tidminta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/04 23:30:06 by thhusser          #+#    #+#             */
-/*   Updated: 2020/11/04 23:30:06 by thhusser         ###   ########.fr       */
+/*   Created: 2019/11/09 19:41:32 by motoure           #+#    #+#             */
+/*   Updated: 2021/09/21 20:44:59 by tidminta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-static char	*strncpy(char *dest, const char *src, size_t n)
-{
-	size_t	i;
-
-	i = 0;
-	while (src[i] && i < n)
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	while (i < n)
-		dest[i++] = 0;
-	return (dest);
-}
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	*dest;
+	char	*return_value;
 
 	if (!s)
 		return (NULL);
-	if (start >= ft_strlen(s))
-		return ((char *)ft_calloc(1, sizeof(char)));
-	dest = (char *)malloc(sizeof(char) * len + 1);
-	if (!dest)
-		return (NULL);
-	dest = strncpy(dest, s + start, len);
-	dest[len] = 0;
-	return (dest);
+	if (start > (unsigned int)ft_strlen(s))
+	{
+		return_value = gc_malloc(sizeof(char) * 1);
+		if (!return_value)
+			return (0);
+		if (!(return_value[0] == '\0'))
+			return_value[0] = '\0';
+		return (return_value);
+	}
+	return_value = gc_malloc(sizeof(char) * len + 1);
+	if (!return_value)
+		return (0);
+	ft_memcpy(return_value, s + start, len);
+	return_value[len] = '\0';
+	return (return_value);
 }

@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tidminta <tidminta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/04 01:14:12 by thhusser          #+#    #+#             */
-/*   Updated: 2020/11/04 01:14:12 by thhusser         ###   ########.fr       */
+/*   Created: 2019/11/10 21:53:40 by motoure           #+#    #+#             */
+/*   Updated: 2021/09/21 20:43:42 by tidminta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdlib.h>
 
-static int	charset(char const *set, char c)
+int	check_set(char c, char const *set)
 {
 	int	i;
 
@@ -26,31 +27,39 @@ static int	charset(char const *set, char c)
 	return (0);
 }
 
-static char	*strnew(size_t size)
+int	len_trim(char *s1, const char *set)
 {
-	char	*new;
+	int	i;
+	int	y;
 
-	new = malloc(sizeof(char) * size + 1);
-	if (!new)
-		return (NULL);
-	ft_bzero(new, size + 1);
-	return (new);
+	y = 0;
+	i = 0;
+	while (check_set(s1[i], set) && s1[i])
+		i++;
+	if (s1[i] == '\0')
+		return (1);
+	y = i;
+	i = ft_strlen((char *)s1) - 1;
+	while (check_set(s1[i], set))
+		i--;
+	return (i - y + 1);
 }
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	int	min;
-	int	max;
+	char	*str;
+	int		len;
+	char	*s2;
 
-	if (!s1)
-		return (NULL);
-	min = 0;
-	while (s1[min] && charset(set, s1[min]) == 1)
-		min++;
-	max = ft_strlen(s1) - 1;
-	while (min <= max && charset(set, s1[max]) == 1)
-		max--;
-	if (min == max)
-		return (strnew(0));
-	return (ft_substr(s1, min, (max - min + 1)));
+	if (!s1 || !set)
+		return (ft_strdup(""));
+	s2 = (char *)s1;
+	len = len_trim(s2, set);
+	str = gc_malloc(sizeof(char) * len + 1);
+	if (!str)
+		return (0);
+	while (check_set(*s2, set))
+		s2++;
+	ft_strlcpy(str, s2, len + 1);
+	return (str);
 }

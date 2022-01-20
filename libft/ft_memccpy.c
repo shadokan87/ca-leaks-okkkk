@@ -3,32 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memccpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: motoure <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/04 01:10:41 by thhusser          #+#    #+#             */
-/*   Updated: 2020/11/04 01:10:41 by thhusser         ###   ########.fr       */
+/*   Created: 2019/11/07 19:32:35 by motoure           #+#    #+#             */
+/*   Updated: 2020/01/07 17:46:39 by motoure          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
 #include "libft.h"
 
-void	*ft_memccpy(void *dest, const void *src, int c, size_t n)
+void	*ft_memccpy(void *dst, const void *src, int c, size_t n)
 {
-	unsigned char	*dest_ptr;
-	unsigned char	*src_ptr;
-	size_t			i;
+	unsigned char				*casted_dst;
+	unsigned char				*casted_src;
 
-	i = 0;
-	dest_ptr = (unsigned char *)dest;
-	src_ptr = (unsigned char *)src;
-	while (i < n)
+	casted_dst = (unsigned char *)dst;
+	casted_src = (unsigned char *)src;
+	while (n)
 	{
-		*dest_ptr = *src_ptr;
-		if (*src_ptr == (unsigned char)c)
-			return (dest + i + 1);
-		dest_ptr++;
-		src_ptr++;
-		i++;
+		*casted_dst = *casted_src;
+		if (*casted_src == (unsigned char)c)
+			return (casted_dst + 1);
+		casted_dst++;
+		casted_src++;
+		n--;
 	}
 	return (NULL);
 }

@@ -3,14 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: motoure <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/04 01:11:55 by thhusser          #+#    #+#             */
-/*   Updated: 2020/11/04 01:11:55 by thhusser         ###   ########.fr       */
+/*   Created: 2019/11/09 12:13:24 by motoure           #+#    #+#             */
+/*   Updated: 2020/01/07 18:12:33 by motoure          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
+
 int	ft_isdigit(int c)
 {
-	return ((c >= '0' && c <= '9'));
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
 }
